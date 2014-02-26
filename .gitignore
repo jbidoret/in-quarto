@@ -1,0 +1,21 @@
+# files #
+######################
+_cam/*
+_drw/*
+_img/cache/
+_img/uploads/
+_mix/
+_sms/backup.txt
+_sms/sms.txt
+
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db

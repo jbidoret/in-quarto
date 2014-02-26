@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} img
+RewriteRule ^_img/(.*) _img/image.php?params=$1 [QSA,L]
+
