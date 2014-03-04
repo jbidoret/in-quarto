@@ -29,24 +29,40 @@
 
 	    $txt = glob('./_txt/*.html');
 	    $cam = glob('./_cam/*.png');
-	    $img = rglob('*.jpg', './_img/cache');
+
+	    $img = rglob('*.jpg', './_img/uploads/web');
+	    $papier = rglob('*.JPG', './_img/uploads/papier');
+	    
+
 
 	    shuffle($txt);
 	    shuffle($cam);
 	    shuffle($img);
+	    shuffle($papier);
 
 		$txt = array_slice($txt ,0 ,50);
 		$cam = array_slice($cam ,0 ,20);
 		$img = array_slice($img ,0 ,20);
+		$papier = array_slice($papier ,0 ,20);
 
-	 	$sources = array_merge ($txt, $cam, $img);
+	 	$sources = array_merge ($txt,  $img, $papier);
 		shuffle($sources);
 		$sources = array_slice($sources, 0, 15);
 
 		foreach ($sources as $file) {
 			echo '<div class="item" data-source="'. substr($file,2) .'">';
 			if (is_image($file)){ 
-				echo '<img src="' . $file . '" width="200">';
+				$imagesourcedir = substr($file, 2, 4);
+				$image = substr($file, 7);
+				
+				// CRAPPY
+				if($imagesourcedir == '_cam'){
+					echo '<img src="' . $file . '" width="200">';
+				} else {
+					echo '<img src="_img/cache/grey/200x200/' . $image . '" width="200">';	
+				}
+				
+				
 			} else {
 				$html = file_get_html($file);
 				$titre = $html->find('h1', 0)->innertext;
