@@ -1,0 +1,42 @@
+
+/* —————————————————————————————————————————————————————————————————————— Antique Olive */
+@font-face {
+    font-family: 'antiqueolive';
+    src: url('fonts/AntiqueOliveStd-Roman.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'antiqueolive';
+    src: url('fonts/AntiqueOliveStd-Italic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'antiqueolive';
+    src: url('fonts/AntiqueOliveStd-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'antiqueolive';
+    src: url('fonts/AntiqueOliveStd-Bold.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'antiqueolive';
+    src: url('fonts/AntiqueOliveStd-Black.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'antiqueolive';
+    src: url('fonts/AntiqueOliveStd-Nord.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+

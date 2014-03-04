@@ -7,6 +7,7 @@
         <meta name="description" content="home + init">
         
         <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/fonts.css">
         <link rel="stylesheet" href="css/main.css">
 
     </head>

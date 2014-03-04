@@ -10,6 +10,7 @@ body {
     margin: 10px;
     background:#000;
     overflow: hidden;
+    font-family: 'antiqueolive', sans-serif;
     }
 
 
@@ -80,7 +81,7 @@ body {
     .slot[data-type="photo"] { z-index: 5}
     .slot[data-type="drawing"] { background: green}
     
-    .slot.focused { outline: 10px dashed black; }    
+    /*.slot.focused { outline: 10px dashed black; }    */
 
 
 /* ———————————————————————————————————————————————————————————————————————————— text layout & typography */    
