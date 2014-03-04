@@ -12,9 +12,10 @@ var multipageMode = false,
 var page = {
 	
 
-	switchToMultipageView : function(){
+	switchToMultipageView : function(multipage){
 		
-		if(multipageMode == false){
+		var _multipageMode = multipage ? multipage : multipageMode;
+		if(_multipageMode == false){
 			for (var i = 0; i < pages_nb; i++) {
 		    	$pages[i].show()
 		    }
@@ -49,6 +50,30 @@ var page = {
 		}
 		_page.addClass('currentpage');
 		$currentPage = _page;
+		
+		layout.changeFocus(_page.find('>div:first-of-type'));
+		
+	},
+
+	nextPage : function(page){
+		
+		if(page !== undefined){
+			_page = $(page);		
+		} else {
+			if($currentPage.next().length){		
+				_page = $currentPage.next();
+			} else {
+				_page = $pages[0];
+			}
+		}
+		for (var i = 0; i < pages_nb; i++) {
+			$pages[i].removeClass("currentpage");
+			$pages[i].hide()
+		}
+			
+		_page.addClass('currentpage');
+		$currentPage = _page;
+		$currentPage.show();
 		
 		layout.changeFocus(_page.find('>div:first-of-type'));
 		
