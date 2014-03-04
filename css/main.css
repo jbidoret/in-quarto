@@ -10,8 +10,10 @@ body {
     margin: 10px;
     background:#000;
     overflow: hidden;
-    font-family: 'antiqueolive', sans-serif;
+    font-family: 'Mendoza', sans-serif;
+    line-height: 1.5;
     }
+
 
 
 /* ———————————————————————————————————————————————————————————————————————————— multipage scales */    
@@ -85,6 +87,7 @@ body {
 
 
 /* ———————————————————————————————————————————————————————————————————————————— text layout & typography */    
+h1, h2 { line-height: 1.2}
 
 p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
 .maincontent { color: red; background: #fff}
@@ -150,3 +153,11 @@ p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
 #list h1, #list a { color: #fff; text-decoration: none; font-size: 1.2em}
 .item { opacity: .5}
 .item.focused { opacity: 1}
+
+
+
+/* feuille de sale */
+
+#bo { font-size: 12pt}
+#bo p { margin: 0; }
+#bo h2 { font-weight: 400}

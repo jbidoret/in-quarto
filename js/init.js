@@ -19,7 +19,7 @@ var pages_nb = 4, // in-quarto
 	
 	slots_nb = 5, // default number of slots per page
 	slots = [],
-	builtSlots = 0,
+	builtSlots = 1,
 	colSlots, // layout
 	sourcesTypes = ['text', 'photo', 'drawing', 'title'],
 	
@@ -44,8 +44,41 @@ var pages_nb = 4, // in-quarto
 // ———————————————————————————————————————————————————————————————————————————— init
 $(function(){
 	source.select();	
+	//volatil();
 });
 
+
+function randRange(data) {
+   var newTime = data[Math.floor(data.length * Math.random())];
+   return newTime;	
+}
+
+function Shuffle(o) {
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	return o;
+};
+
+function bordelize(func) {
+   	var timeArray = new Array(2000, 3000, 6000, 30000, 45000);
+
+   	// choose a random slots number among all slots and move them
+   	var randslots = slots;
+   	Shuffle(randslots);
+   	if (document.mode == 'layout') {
+   		var max = Math.floor(Math.random()*4);
+   		var t = [];
+   		for (var i = 0; i < max; i++) {
+   			var myslot = slots[i];
+   			t[i] = setTimeout(function(myslot){
+   				layout.initPositionAndSize(myslot);
+   			}, i*200, myslot)
+   		};     		
+	};
+	clearInterval(bordelTimer);
+	bordelTimer = setInterval(bordelize, randRange(timeArray));
+}
+
+var bordelTimer = setInterval(bordelize, 1000);
 
 
 // ———————————————————————————————————————————————————————————————————————————— keyboard
@@ -54,7 +87,8 @@ $(document).keydown(function(e){
 		// change focus : a
 		case 65:
 			if(document.mode == 'layout' ){
-				layout.changeFocus();
+				//layout.changeFocus();
+				page.nextPage();
 			} else if (document.mode == 'init' ){
 				source.change();
 			} else {
@@ -97,10 +131,11 @@ $(document).keydown(function(e){
 		case 77 :
 			switch (document.mode){
 				case 'layout' :
-					page.setCurrentPage();
+					page.nextPage();
 				break;
 				case 'init' :
-					source.change()
+					source.change();
+
 				break;
 			}	
 			
