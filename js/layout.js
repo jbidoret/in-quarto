@@ -11,6 +11,46 @@ var layout = {
 
 		document.mode = 'layout';
 
+		// @TODO
+		// établir sourceFocusedSrc comme source primaire
+		// établir sa mise en page
+		// avant de convoquer d’autres sources
+		
+
+
+		// analyser la source pour savoir comment la mettre en page
+		// = longueur du texte ?
+
+
+
+		
+		
+
+		// déterminer où positionner ce contenu primaire
+		
+		//css regions
+		buildRegions = function($_page){
+			var $regions = [];
+
+			if(maincontent.html().length < 2000){
+				maincontent.addClass('huge');
+			} else if(maincontent.html().length < 4000){
+				maincontent.addClass('big');
+			}
+			layout.initPositionAndSize(maincontent, true);
+			for (var i = 0; i < 4; i++) {
+				$regions[i] = $('<div class="slot region" data-type="text" id="slot' + parseInt(250 + i) + '"></div>')
+				layout.initPositionAndSize($regions[i]);
+				$_page.append($regions[i]);
+
+			}
+
+			//CSSRegions.doLayout()	        
+		}
+		
+		
+		
+
 		// Creation of 4 pages
 		for (var i = 0; i < pages_nb; i++) {
 
@@ -18,11 +58,15 @@ var layout = {
 			$book.append($_page);
 			
 			// build grid
-			grid.init($_page, res);	
+			grid.init($_page, res);
+
+			//
+			// buildRegions($_page);
 
 			// generate content slots
-			for (var j = 0; j < slots_nb; j++) {
-				var s = new layout.Slot(builtSlots);
+			for (var j = 1; j < slots_nb; j++) {
+				var txt0rImg = Math.random();
+				var s = new layout.Slot(builtSlots, txt0rImg >.8 ? 'text' : 'photo');
 				$_page.append(s);
 				if(i==0 && j==0) focused = s;
 				layout.initPositionAndSize(s);
@@ -37,6 +81,9 @@ var layout = {
 			})		
 			$pages.push($_page);
 		};
+
+
+		
 
 		var multipageCols = 2,
 	        _w = w/10,
@@ -55,12 +102,46 @@ var layout = {
 	    var $multipageCss = $('<style id="multipageCss" type="text/css">' + multipageStyle + '</style>');
 	    $("head").append($multipageCss);
 		
-	    page.switchToMultipageView();
+		multipageMode = true;
+	    
 		page.setCurrentPage($pages[0]);
+		page.switchToMultipageView();
+
+		// main content slot
+		var type = sourceFocusedSrc.slice(-3);
+		
+		if(type=="txt" || type=="tml"){
+			var maincontent = new layout.Slot(0, 'text');
+			builtSlots++;
+			focused = maincontent;
+			$.ajax({
+				url:sourceFocusedSrc, 
+				success:function(data){
+					// var $dom = $(document.createElement("html"));
+	    			// $dom[0].innerHTML = data; 
+	    			// html = $dom.find('body').html();
+	        		content="<div>" + data + "</div>";		
+	        		maincontent.html(content);		
+	        		maincontent.attr('data-type', 'text')
+	        		
+				}						
+			});
+			layout.initPositionAndSize(maincontent, true);
+
+		} else {
+			var maincontent = new layout.Slot(0, 'text');
+			builtSlots++;
+			focused = maincontent;
+			var saltSrc = sourceFocusedSrc.replace('_img', '_img/cache/grey/2000x2000');			
+			maincontent.html('<div class="img"><img src="'+saltSrc+'"></div>');
+			maincontent.attr('data-type', 'photo');
+			layout.initPositionAndSize(maincontent, true);
+		}
+		$('#page0').append(maincontent);
 	},
 
-	fillSlot : function(slot){
-	
+	fillSlot : function(slot, src){
+		
 		var type = slot.attr('data-type');
 		var content;
 		switch(type){
@@ -77,9 +158,9 @@ var layout = {
 				});
 			break;
 			case 'photo': 
-				var saltSrc = '_img/blue/1-2/400/random/tumblr_mcepy8g5Ox1ru82ue.jpg.png?' + Math.random();
-				slot.html('<div class="img" style="background-image:url('+saltSrc+')" ><img src="'+saltSrc+'"></div>');
-				//slot.html('<div class="img"><img src="'+saltSrc+'"></div>');
+				var saltSrc = '_img/cache/grey/2000x2000/random/image.png?' + Math.random();
+				//slot.html('<div class="img" style="background-image:url('+saltSrc+')" ><img src="'+saltSrc+'"></div>');
+				slot.html('<div class="img"><img src="'+saltSrc+'"></div>');
 				return content;
 			break;
 			case 'drawing':
@@ -122,6 +203,11 @@ var layout = {
 	},
 
 
+	paginate : function(){
+		var pagenumber= 1;
+	},
+
+
 
 	// ------------------------------------------------------------------------------------------ position and size
 	movePosition : function(slot){
@@ -141,9 +227,11 @@ var layout = {
 
 	randomPosition: function(slot){
 		
+		var slotheight = slot.height();
+
 		var randColNb = Math.floor(Math.random()*colSlots.length);
 			
-		var _top = Math.random()*(h  + bordPerdu) - bordPerdu;
+		var _top = Math.random()*(h - slotheight  + bordPerdu) - bordPerdu;
 		var _left = colSlots[randColNb].left;
 		
 		
@@ -156,9 +244,13 @@ var layout = {
 		slot.css({'width':_width});
 	},
 
-	initPositionAndSize: function(slot){
+	initPositionAndSize: function(slot, main){
 		layout.randomSize(slot);
 		layout.randomPosition(slot);
+		if (main==true) {
+			var height = h - parseInt(slot.css('top')) - bordPerdu;
+			slot.css({'height': height});
+		};
 	},
 
 
@@ -174,21 +266,5 @@ var layout = {
 		};
 		layout.randomSize(slot);
 		layout.randomPosition(slot);
-	},
-	changeFocus : function(slot){
-		for (var i = 0; i < slots.length; i++) {
-			slots[i].removeClass("focused");
-		}
-		if(slot !== undefined){
-			focused = slot;
-		} else {
-			if(focused.next().length && focused.next().is('div')){		
-				focused = focused.next();
-			} else {
-				focused = focused.parent().find('>div:first-of-type');
-			}
-		}
-		
-		focused.addClass("focused");	
 	}
 }
