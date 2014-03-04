@@ -50,7 +50,7 @@ body {
     z-index: 2000;
     }
 .multipage .currentpage {
-    background: red
+    /*background: red*/
     }
 
 
@@ -77,7 +77,7 @@ body {
     .slot[data-type="title"] { background: blue}
     .slot[data-type="text"] { font-size: 200%; z-index: 8}
     .slot[data-type="sms"] { font-size: 200%; z-index: 8}
-    .slot[data-type="photo"] { z-index: 0}
+    .slot[data-type="photo"] { z-index: 5}
     .slot[data-type="drawing"] { background: green}
     
     .slot.focused { outline: 10px dashed black; }    
@@ -85,8 +85,38 @@ body {
 
 /* ———————————————————————————————————————————————————————————————————————————— text layout & typography */    
 
-p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: white }
+p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
+.maincontent { color: red; background: #fff}
+.slot[data-type="text"].huge { font-size: 400%}
+.slot[data-type="text"].big { font-size: 400%}
+.slot[data-type="text"].normal { font-size: 200%}
 
+#slot0[data-type="text"]{
+    /* collect content into a named flow */
+    /*-adobe-flow-into: myFlow;
+    -webkit-flow-into: myFlow;*/
+    flow-into: content-flow contents;
+    overflow: hidden;
+}
+
+.region{
+    /* render content from the named flow*/
+   /* -adobe-flow-from: myFlow;
+    -webkit-flow-from: myFlow;*/
+    flow-from: content-flow;
+    region-fragment: break;
+    height: 250px;
+    width: 250px;
+}
+
+.content-source {
+    
+}
+
+.content-region {
+    flow-from: content-flow;
+    region-fragment: break;
+}
 /* ———————————————————————————————————————————————————————————————————————————— image layout  */    
 .img img { width: 100%}
 
@@ -96,13 +126,15 @@ p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: white }
 
 
 
-#popup { position: fixed; z-index: 9999; background: rgba(0,0,0,0,.2); color: #fff; top:0; right:200px; bottom:0; left: 0; text-align: center;}
+
+#popup { position: fixed; z-index: 99099; background: #000; color: #fff; top:0; right:200px; bottom:0; left: 0; text-align: center;}
 #popup p { position: absolute; top: 50%; text-align: center; width: 100%; margin-top: -1em;}
 #popup.invisible { right: auto; width: 0}
-#popup video, .popup canvas { width:1080;}
-#popup video { margin: 0 auto; display: block; max-width: 100%; visibility: hidden;}
-#popup canvas { position: absolute; z-index: 8; visibility: hidden;}
-#popup #canvas  { z-index: 9; visibility: visible; left: 50%; top: 0; margin-left: -540px}
+#webcam { z-index: 1; position: absolute;}
+#webcam video, .popup canvas { width:1080px;}
+#webcam video { margin: 0 auto; display: block; max-width: 100%; visibility: hidden;}
+#webcam canvas { position: absolute; z-index: 8; visibility: hidden; top:0; left: 0}
+#webcam #canvas  { z-index: 9; visibility: visible; left: 0%; top: 0; margin-left:0; transform:scale(3.2); transform-origin:0 0; }
 
 #list{ opacity: 0; transition:opacity 400ms linear; margin-right: 220px}
 .packed #list{ opacity: 1 }

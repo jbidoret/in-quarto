@@ -16,7 +16,7 @@
 	//save data:png base64 encoded to disk
 
 	$destdir = './_cam/';
-	$filename = $destdir . 'cam-' . date('y-m-j-m-i-s') . '.png';
+	$filename = $destdir . $filename;//'cam-' . date('y-m-j-m-i-s') . '.png';
 	$tempfilename = $filename . '-tmp.png';
 	$destfilename = $filename . '-ok.png';
 
@@ -32,10 +32,10 @@
     // exec ($convert . " " . $tempfilename . " -fuzz 30% -transparent black png8:" . $filename);
     
     // treshold   
-	// exec ($convert . " " . $filename . " -colorspace Gray -threshold 50% " . $filename);
+	exec ($convert . " " . $filename . " -colorspace Gray -threshold 50% " . $filename);
 
 	// high contrast
-	exec ($convert . " " . $filename . " -colorspace Gray -normalize  " . $filename);
+	//exec ($convert . " " . $filename . " -colorspace Gray -normalize  " . $filename);
 
 	//die(substr($data, strpos($data, ",")+1));
 
