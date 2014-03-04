@@ -2,7 +2,7 @@
 
 
     // allowed modes
-    $modes = array('bitmap', 'hole', 'bg', 'grad', 'grey', 'intext', 'blue', 'bluue');
+    $modes = array('bitmap', 'hole', 'bg', 'grad', 'grey', 'intext', 'blue', 'bluue', 'wall');
 
     // debug
     if ($_GET["debug"]=="True") $debug=true;
@@ -10,11 +10,9 @@
     
     
     $sourcedir = 'uploads';
+    $destination = "cache";
     /*
-        newsletter-text/uid-titleslug/text/titleslug.jpg
-        newsletter-image/uid-titleslug/text/path/to/file.jpg
-        newsletter-titre/uid-titleslug/titleslug.jpg
-        site-focus/uid-titleslug/color-tint/path/to/file.jpg
+        cache/mode/widthxheight/dir/source.jpg
     */
 
     // params
@@ -27,53 +25,42 @@
     $file = '';
     $destdir = '';
 
+
+
     // mode
-    if (in_array($params[0], $modes)) $mode = $params[0];
-    else die($params[0] . ' is not a valid mode');
+    if (in_array($params[1], $modes)) $mode = $params[1];
+    else die($params[1] . ' is not a valid mode');
 
     // uid (to build unique destdir)
-    $uid = $params[1];
-
-    switch ($mode) {
-        case 'hole':
-            $filepath = implode("/", array_slice($params, 2));
-            $filedir = implode("/", array_slice($params, 2, -1));
-
-            $file = './' . htmlspecialchars($filepath, ENT_QUOTES, 'UTF-8');
-            
-            if (!file_exists($file)) {
-                die('No image at all ' . $file);
-            } 
-            $destdir = './cache/' . $mode . '/' . $uid . '/' . rawurlencode($text) . '/' .$filedir;
-            break;      
-
-        
-        default:
-            $size = $params[2];
-            $filepath = implode("/", array_slice($params, 3));
-            
-            $filedir = implode("/", array_slice($params, 3, -1));
-            
-            // if source is random 
-            if($filedir != $sourcedir){
-                $file = './' . random_pic();
-            } else {
-                $file = './' . htmlspecialchars(substr($filepath, 0, -4), ENT_QUOTES, 'UTF-8');
-            }
-
-            if (!file_exists($file)) {
-                die('No image');
-            } 
-            $destdir = './cache/' . $mode . '/' . $uid . '/' . $size . '/' .  $filedir;
-            break;
-    }
-
     
+
+    $size = $params[2];
+    $filepath = implode("/", array_slice($params, 3));
+    
+    $filedir = implode("/", array_slice($params, 3, -1));
     function random_pic() {
-        $files = glob('./uploads/*.*');
+        $files = glob('./uploads/wip/*.*');
+        $files = glob("{uploads/*/*.jpg,uploads/*/*.JPG,uploads/*/*.png}",GLOB_BRACE);
         $faile = array_rand($files);
         return $files[$faile];
     }
+    if ($filedir == 'random') {
+        $filepath = random_pic();
+        
+    }
+    
+    //$file = './' . htmlspecialchars(substr($filepath, 0, -4), ENT_QUOTES, 'UTF-8');
+    $file = './' . htmlspecialchars($filepath, ENT_QUOTES, 'UTF-8');
+    
+    
+
+    if (!file_exists($filepath)) {
+        die('No image : ' . $filepath);
+    } 
+    $destdir = './cache/' . $mode . '/' . $size . '/' .  $filedir;
+
+    
+    
 
     init();
 
@@ -83,7 +70,7 @@
 
         if($debug==true){
             // remove previously calculated files
-            exec ("rm -f " . $destdir . "/*");
+            // exec ("rm -f " . $destdir . "/*");
         }
         // if $destdir does’nt exist, create it, then create image
         if (!is_dir($destdir)) {
@@ -133,7 +120,7 @@
         $destwidth = round($size/$height * $width);
         $destheight = round($size/$height * $height);
 
-        $flare_src = './img/flare-w.png';
+        $flare_src = './flare-w.png';
 
         function getpos($img, $width, $height){
             die($width);
@@ -146,6 +133,7 @@
         }
 
         function getrandGradient(){
+
             $colors = array(
                 '60,186,60', // vert vif
                 '53,157,217', // cyan
@@ -161,6 +149,7 @@
             $color1 = $colors[rand(0, count($colors)-1)];
             //die(" 'rgb(" . $color1 . ")-rgb(" . $color2 . ")' ");
             return $color1;
+
             //return " '0,0     rgba(" . $color1 . ",1) 0,1000     rgba(" . $color2 . ",1)' ";   
         }
 
@@ -179,6 +168,7 @@
                 exec ($convert . " " . $file . " -resize ". $destwidth ."x". $destheight ." -remap pattern:gray50 " . $temp);
                 exec ($convert . " " . $temp . " -colors 2 -dither FloydSteinberg  -fuzz 30% -transparent black png8:" . $temp);
                 exec ($convert  . "  -geometry +0+0 " . $cache . " " . $temp . " -composite -compose Screen " . $cache);
+                
 
                 break;
 
@@ -188,7 +178,7 @@
                 break;
 
             case 'grey':
-                exec ($convert . " " . $file . " -colorspace Gray -resize 2000x435\> -quality 70 " . $cache);            
+                exec ($convert . " " . $file . " -resize ". $size ." -colorspace Gray -resize 2000x435\> -quality 70 " . $cache);            
                 break;
 
             case 'wall':
@@ -242,12 +232,15 @@
                 break;
         }    
 
+
         
 
         // if there is still no image, die
         if (!file_exists($cache)) {
             die('ERROR: Image conversion failed.');
         } else {
+            unlink($temp);
+            exec('rm ' . $temp);
             serveImage($cache);
         }
     }
