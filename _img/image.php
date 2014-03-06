@@ -39,9 +39,15 @@
     
     $filedir = implode("/", array_slice($params, 3, -1));
     function random_pic() {
+        
         $files = glob('./uploads/wip/*.*');
-        $files = glob("{uploads/*/*.jpg,uploads/*/*.JPG,uploads/*/*.png}",GLOB_BRACE);
+        $img = glob("{uploads/*/*.jpg,uploads/*/*.JPG,uploads/*/*.png}",GLOB_BRACE);
+        $cam = glob("../_cam/*-ok.png");
+
+        $files = array_merge ($img, $cam);
+
         $faile = array_rand($files);
+        
         return $files[$faile];
     }
     if ($filedir == 'random') {
