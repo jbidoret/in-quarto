@@ -57,10 +57,35 @@ var layout = {
 			var $_page = $('<div class="page" id="page' + i +'" data-folio="' + parseInt(i+1) + '"></div>');
 			$book.append($_page);
 			
-			// build grid
+			// ———————————————————————————————————————————————————————————————————————————— build grid
 			grid.init($_page, res);
 
-			//
+			
+			// ———————————————————————————————————————————————————————————————————————————— build folios
+			for (var p = 0; p < 2; p++) {
+				var text;
+				var folio = $('<div class="slot folio" data-type="folio"></div>');
+				$_page.append(folio);
+				
+				var t = bordPerdu, r = w - bordPerdu, b = h - bordPerdu, l = bordPerdu;
+				if (i==0 && p==0 || i == 1 && p ==0 || i == 2 && p == 0 || i == 3 && p ==0) r = w/2;
+				if (i==0 && p==1 || i == 1 && p ==1 || i == 2 && p == 1 || i == 3 && p ==1) l = w/2;
+				
+				if(i==0 && p==0){
+					text = 8;
+				} else {
+					text = i + 1 + (p == 0 ? i-1 : i) ;					
+				}
+
+				layout.randomPosition(folio, {'top':t, 'right':r , 'bottom': b, 'left':l});
+				folio.text(text);
+				
+			};
+			
+
+			
+
+
 			// buildRegions($_page);
 
 			// generate content slots
@@ -117,13 +142,9 @@ var layout = {
 			$.ajax({
 				url:sourceFocusedSrc, 
 				success:function(data){
-					// var $dom = $(document.createElement("html"));
-	    			// $dom[0].innerHTML = data; 
-	    			// html = $dom.find('body').html();
-	        		content="<div>" + data + "</div>";		
+					content="<div>" + data + "</div>";		
 	        		maincontent.html(content);		
-	        		maincontent.attr('data-type', 'text')
-	        		
+	        		maincontent.attr('data-type', 'text')	        		
 				}						
 			});
 			layout.initPositionAndSize(maincontent, true);
@@ -140,6 +161,8 @@ var layout = {
 		$('#page0').append(maincontent);
 	},
 
+
+	// random slot filling
 	fillSlot : function(slot, src){
 		
 		var type = slot.attr('data-type');
@@ -203,8 +226,10 @@ var layout = {
 	},
 
 
-	paginate : function(){
-		var pagenumber= 1;
+	paginate : function(page){
+		
+
+
 	},
 
 
@@ -217,15 +242,15 @@ var layout = {
 		var _top = Math.floor(Math.random()*h);
 		var _left = colSlots[randColNb].left;
 
-		layout.randomSize(slot);
+		layout.randomColWidth(slot);
 
 		slot.css({ 'top':_top, 'left':_left });
 		if(_top >h + bordPerdu || _left > w+ bordPerdu){
-			layout.randomPosition(slot);
+			layout.randomColPosition(slot);
 		}
 	},
 
-	randomPosition: function(slot){
+	randomColPosition: function(slot){
 		
 		var slotheight = slot.height();
 
@@ -238,16 +263,40 @@ var layout = {
 		slot.css({'top':_top, 'left':_left});
 	},
 
-	randomSize : function(slot){
+	randomPosition: function(slot, options){
+		
+		if(options == undefined ){
+			var top = bordPerdu, 
+				right = w - bordPerdu, 
+				bottom = h - bordPerdu, 
+				left = bordPerdu;
+		} else {
+			
+			var top = options.top, 
+				right = options.right, 
+				bottom = options.bottom, 
+				left = options.left;
+				
+		}
+			
+		var _left = Math.random()*(right-left) + left;
+		var _top = Math.random()* (bottom - top) + top;
+		
+		console.log(options, top, right, bottom, left, '/', _top, _left)
+		slot.css({'top':_top, 'left':_left});
+	},
+
+	randomColWidth : function(slot){
 		var randColNb = Math.floor(Math.random()*colSlots.length);
 		var _width = colSlots[randColNb].width;
 		slot.css({'width':_width});
 	},
 
 	initPositionAndSize: function(slot, main){
-		layout.randomSize(slot);
-		layout.randomPosition(slot);
+		layout.randomColWidth(slot);
+		layout.randomColPosition(slot);
 		if (main==true) {
+			console.log('main' , main)
 			var height = h - parseInt(slot.css('top')) - bordPerdu;
 			slot.css({'height': height});
 		};
@@ -264,7 +313,7 @@ var layout = {
 		for (var i = 0; i < slotsToMove.length; i++) {
 			layout.movePosition($(slotsToMove[i]));
 		};
-		layout.randomSize(slot);
-		layout.randomPosition(slot);
+		layout.randomColWidth(slot);
+		layout.randomColPosition(slot);
 	}
 }
