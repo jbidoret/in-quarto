@@ -16,6 +16,8 @@ var pages_nb = 4, // in-quarto
 	h = 565 * res, 
 	w = 800 * res,
 	bordPerdu = 20 * res,
+
+	avoidDoubleKey = false,
 	
 	slots_nb = 5, // default number of slots per page
 	slots = [],
@@ -44,7 +46,7 @@ var pages_nb = 4, // in-quarto
 // ———————————————————————————————————————————————————————————————————————————— init
 $(function(){
 	source.select();	
-	//volatil();
+	
 });
 
 
@@ -82,76 +84,103 @@ var bordelTimer = setInterval(bordelize, 1000);
 
 
 // ———————————————————————————————————————————————————————————————————————————— keyboard
-$(document).keydown(function(e){ 
-	switch(e.keyCode){
-		// change focus : a
-		case 65:
-			if(document.mode == 'layout' ){
-				//layout.changeFocus();
-				page.nextPage();
-			} else if (document.mode == 'init' ){
-				source.change();
-			} else {
-				// pass
-			}
-			
-		break;
-		// toggle grid : h
-		case 72:
-			grid.toggle();
-		break;
-		// change source : q
-		case 81 :
-			layout.fillSlot(focused);
-		break;
-		// random position : s
-		case 83 :
-			layout.reinitPositionAndSize(focused);
-		break;
-		// move position : d
-		case 68 :
-			layout.movePosition(focused);				
-		break;
-		// save : p
-		case 80 :
-			saveAndPrint();
-		break;
-		// switch view page / multipage : l
-		case 76 :
-			switch (document.mode){
-				case 'layout' :
-					page.switchToMultipageView();
-				break;
-				case 'init' :
-					source.setCurrent()
-				break;
-			}			
-		break;
-		// m
-		case 77 :
-			switch (document.mode){
-				case 'layout' :
-					page.nextPage();
-				break;
-				case 'init' :
-					source.change();
+/*
 
+print  	|   	cam  	relayout	noise	more	less	|	select  	next
+dwn   	| 		up  	g 			f 		d 	 	s		|	q			z
+
+
+*/
+$(document).keydown(function(e){ 
+	if (!avoidDoubleKey){
+
+		switch(e.keyCode){
+			// save : down arrow
+			case 40 :
+				switch (document.mode){
+					case 'layout' :
+						saveAndPrint();
+						break;
+					}
 				break;
-			}	
+
+			// webcam / take pic : up arrow
+			case 38 :
+				if (document.mode != "print") {
+					if(document.mode != 'webcam' ) webcam.init();	
+					else webcam.takepicture();				
+				};
+				break;
+
+
+			// relayout : g
+			case 71 :
+				layout.reinitPositionAndSize(focused);
+				break;
+
+			// select source / multi page view : q
+			case 81 :
+				switch (document.mode){
+					case 'layout' :
+						page.switchToMultipageView();
+						break;
+					case 'init' :
+						source.setCurrent()
+						break;
+				}			
+				break;
+			// next source / next page : z
+			case 90 :
+				switch (document.mode){
+					case 'layout' :
+						page.nextPage();
+						break;
+					case 'init' :
+						source.change();
+						break;
+				}	
+				break;
 			
-		break;
-		case 78 :
-			menu.toggle(document.mode);
-		break;
-		// r
-		case 82 :
-			if(document.mode != 'webcam' ){
-				webcam.init();	
-			} else {
-				webcam.takepicture();
-			}
+			// ———————————————————————————————————————————————————————————————— unused live @ b
+			// move position : d
+			case 68 :
+				layout.movePosition(focused);				
+			break;
 			
-		break;
-		
+			case 78 :
+				menu.toggle(document.mode);
+			break;
+			
+			// change focus 
+			case 65:
+				if(document.mode == 'layout' ){
+					//layout.changeFocus();
+					page.nextPage();
+				} else if (document.mode == 'init' ){
+					source.change();
+				} else {
+					// pass
+				}
+				
+			break;
+			// toggle grid : h
+			case 72:
+				grid.toggle();
+			break;
+			// change source : q
+			case 81 :
+				layout.fillSlot(focused);
+			break;
+			
+		}
+
+
+		avoidDoubleKey = true;
+		var dK = setTimeout(function(){
+			avoidDoubleKey = false;
+		},200)
+
+		return false;
 	}
+	
 });
