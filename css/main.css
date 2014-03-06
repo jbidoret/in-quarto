@@ -10,7 +10,8 @@ body {
     margin: 10px;
     background:#000;
     overflow: hidden;
-    font-family: 'Mendoza', sans-serif;
+    font-family: 'Mendoza', serif;
+    font-family: 'antiqueolive', sans-serif;
     line-height: 1.5;
     }
 
@@ -79,8 +80,9 @@ body {
     }    
     .slot[data-type="title"] { background: blue}
     .slot[data-type="text"] { font-size: 200%; z-index: 8}
-    .slot[data-type="sms"] { font-size: 200%; z-index: 8}
+    .slot[data-type="sms"] { font-size: 200%; z-index: 8; font-family: 'Mendoza', serif; font-size: 14px}
     .slot[data-type="photo"] { z-index: 5}
+    .slot[data-type="folio"] { z-index: 10; font-size: 100%; font-weight: 300}
     .slot[data-type="drawing"] { background: green}
     
     /*.slot.focused { outline: 10px dashed black; }    */
@@ -121,6 +123,10 @@ p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
     flow-from: content-flow;
     region-fragment: break;
 }
+
+.auteur { font-size: 75%; font-style: italic;}
+.credits { max-width: 250px; z-index: 50}
+.credits .auteur { margin: 0}
 /* ———————————————————————————————————————————————————————————————————————————— image layout  */    
 .img img { width: 100%}
 
@@ -131,7 +137,7 @@ p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
 
 
 
-#popup { position: fixed; z-index: 99099; background: #000; color: #fff; top:0; right:200px; bottom:0; left: 0; text-align: center;}
+#popup { position: fixed; z-index: 99099; background: #000; color: #fff; top:0; bottom:0; left: 0; right: 0; text-align: center;}
 #popup p { position: absolute; top: 50%; text-align: center; width: 100%; margin-top: -1em;}
 #popup.invisible { right: auto; width: 0}
 #webcam { z-index: 1; position: absolute;}
@@ -140,17 +146,22 @@ p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
 #webcam canvas { position: absolute; z-index: 8; visibility: hidden; top:0; left: 0}
 #webcam #canvas  { z-index: 9; visibility: visible; left: 0%; top: 0; margin-left:0; transform:scale(3.2); transform-origin:0 0; }
 
-#list{ opacity: 0; transition:opacity 400ms linear; margin-right: 220px}
+#list{ opacity: 0; transition:opacity 400ms linear; /*margin-right: 220px*/}
 .packed #list{ opacity: 1 }
 
-#list #container div {
+#list .item {
     display: block;
     float: left;
     width: 200px;
-    margin: 0 0px 0px 0
+    margin: 0 0px 0px 0;
+    color: #fff;
 }
+#list .item.w2 { width: 420px;}
+.item img { width: 100%}
 
-#list h1, #list a { color: #fff; text-decoration: none; font-size: 1.2em}
+#list h1{font-size: 1.2em}
+#list a {  text-decoration: none; }
+#list p { font-size: 1em}
 .item { opacity: .5}
 .item.focused { opacity: 1}
 
