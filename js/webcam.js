@@ -7,6 +7,9 @@
 // captures and saves pics from webcam hd input
 // translate original coloured source to b&w via canvas
 
+// draw video to backcanvas
+// capture backcanvas to canvas ?
+
 
 var vWidth = 1080,
 	vHeight = 720,
@@ -84,32 +87,8 @@ var webcam = {
 
 	    getMedia();
 	},
-	/*
-	var grayscale = Filters.filterImage(Filter.grayscale, image);
-	// Note that ImageData values are clamped between 0 and 255, so we need
-	// to use a Float32Array for the gradient values because they
-	// range between -255 and 255.
-	var vertical = Filters.convoluteFloat32(grayscale,
-	  [ -1, 0, 1,
-	    -2, 0, 2,
-	    -1, 0, 1 ]);
-	var horizontal = Filters.convoluteFloat32(grayscale,
-	  [ -1, -2, -1,
-	     0,  0,  0,
-	     1,  2,  1 ]);
-	var final_image = Filters.createImageData(vertical.width, vertical.height);
-	for (var i=0; i<final_image.data.length; i+=4) {
-	  // make the vertical gradient red
-	  var v = Math.abs(vertical.data[i]);
-	  final_image.data[i] = v;
-	  // make the horizontal gradient green
-	  var h = Math.abs(horizontal.data[i]);
-	  final_image.data[i+1] = h;
-	  // and mix in some blue for aesthetics
-	  final_image.data[i+2] = (v+h)/4;
-	  final_image.data[i+3] = 255; // opaque alpha
-	}
-	*/
+	
+
 	// video copy in b&w
 	draw : function() {
 	 	try {
@@ -131,9 +110,11 @@ var webcam = {
 		            
 			    data[i] = data[i+1] = data[i+2] = gray
 		    }
-		    apx.data = data;
+		    
+
+		   	apx.data = data;
 		    context.putImageData(apx, 0, 0);
-		 
+
 		 	// recursive
 		    camTimeOut = setTimeout(function() {
 		        webcam.draw();
@@ -149,7 +130,7 @@ var webcam = {
 
 	stopCam : function() {
 		//video.src = window.URL.createObjectURL(null);
-		window.URL.revokeObjectURL(stream);
+		//window.URL.revokeObjectURL(stream);
 		stream.stop()
 		clearTimeout(camTimeOut);
 		$webcam = $('#webcam');
