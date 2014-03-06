@@ -78,7 +78,7 @@
 
         // http://www.computerhope.com/unix/ulp.htm
 		// http://www.cups.org/documentation.php/options.html#OPTIONS
-		//exec('lp -d "HP_LaserJet_P3010_Series"  -o fit-to-page -o sides=two-sided-short-edge -o media=A4 ' . $destdir . 'print.pdf' );
+		exec('lp -d "Hewlett-Packard_HP_LaserJet_P3010_Series"  -o fit-to-page -o sides=two-sided-short-edge -o media=A4 ' . $destdir . 'print.pdf' );
 
 		// delete png files
 
