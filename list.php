@@ -28,6 +28,7 @@
 
 
 	    $txt = glob('./_txt/*.html');
+	    $txt = rglob('*.html', './_txt');
 	    $cam = glob('./_cam/*.png');
 
 	    $img = rglob('*.jpg', './_img/uploads/web');
@@ -50,16 +51,16 @@
 		$sources = array_slice($sources, 0, 15);
 
 		foreach ($sources as $file) {
-			echo '<div class="item" data-source="'. substr($file,2) .'">';
+			
 			if (is_image($file)){ 
 				$imagesourcedir = substr($file, 2, 4);
 				$image = substr($file, 7);
 				
 				// CRAPPY
 				if($imagesourcedir == '_cam'){
-					echo '<img src="' . $file . '" width="200">';
+					$content = '<img src="' . $file . '" width="200">';
 				} else {
-					echo '<img src="_img/cache/grey/200x200/' . $image . '" width="200">';	
+					$content = '<img src="_img/cache/grey/400x400/' . $image . '">';	
 				}
 				
 				
@@ -67,11 +68,18 @@
 				$html = file_get_html($file);
 				$titre = $html->find('h1', 0)->innertext;
 				if($titre == ''){ 
-					$titre = substr($html->plaintext, 0, 50);
+					$text = $html->plaintext;
+					$dot = stripos ($text, '.'); //find first dot position
+					$titre = substr($text, 0, $dot+1);
 				}
-				echo "<h1>$titre</h1>";
+				if (strlen($titre) > 150) {
+					$content = "<p>$titre</p>";
+				} else {
+					$content = "<h1>$titre</h1>";
+				}
+				
 			}
-			echo '</div>';
+			echo '<div class="item" data-source="'. substr($file,2) .'">' . $content . '</div>';
 		}
 		
 
