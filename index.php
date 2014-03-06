@@ -47,6 +47,10 @@
         <script type="text/javascript" src="js/html2canvas.js"></script>
         <script type="text/javascript" src="js/plugins.js"></script>
 
+        <script type="text/javascript" src="js/objectdetect.js"></script>
+        <script type="text/javascript" src="js/objectdetect.handopen.js"></script>
+        <script type="text/javascript" src="js/jquery.objectdetect.js"></script>
+
 
         <script type="text/javascript" src="js/webcam.js"></script>
         <script type="text/javascript" src="js/sms.js"></script>
