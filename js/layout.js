@@ -48,8 +48,6 @@ var layout = {
 			//CSSRegions.doLayout()	        
 		}
 		
-		
-		
 
 		// Creation of 4 pages
 		for (var i = 0; i < pages_nb; i++) {
@@ -70,9 +68,19 @@ var layout = {
 				var t = bordPerdu, r = w - bordPerdu, b = h - bordPerdu, l = bordPerdu;
 				if (i==0 && p==0 || i == 1 && p ==0 || i == 2 && p == 0 || i == 3 && p ==0) r = w/2;
 				if (i==0 && p==1 || i == 1 && p ==1 || i == 2 && p == 1 || i == 3 && p ==1) l = w/2;
+
+				folio.attr('data-layout-limit-right', r);
+				folio.attr('data-layout-limit-left', l);
 				
 				if(i==0 && p==0){
 					text = 8;
+					var d = new Date();
+
+					var _date = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() ;
+
+					var credits = $('<div class="slot credits" data-type="credits"><p><span>Maison des éditions</span> <br> <span>Les motifs du travail</span> <br><span>'+ _date +'</span></div>');
+					$_page.append(credits);
+					layout.randomPosition(credits, {'top':t, 'right':r , 'bottom': b, 'left':l});
 				} else {
 					text = i + 1 + (p == 0 ? i-1 : i) ;					
 				}
@@ -91,7 +99,7 @@ var layout = {
 			// generate content slots
 			for (var j = 1; j < slots_nb; j++) {
 				var txt0rImg = Math.random();
-				var s = new layout.Slot(builtSlots, txt0rImg >.8 ? 'text' : 'photo');
+				var s = new layout.Slot(builtSlots, txt0rImg >.9 ? 'text' : 'photo');
 				$_page.append(s);
 				if(i==0 && j==0) focused = s;
 				layout.initPositionAndSize(s);
@@ -132,7 +140,7 @@ var layout = {
 		page.setCurrentPage($pages[0]);
 		page.switchToMultipageView();
 
-		// main content slot
+		// --------------------------------------------------------------------------------------------- main content slot
 		var type = sourceFocusedSrc.slice(-3);
 		
 		if(type=="txt" || type=="tml"){
@@ -144,7 +152,9 @@ var layout = {
 				success:function(data){
 					content="<div>" + data + "</div>";		
 	        		maincontent.html(content);		
-	        		maincontent.attr('data-type', 'text')	        		
+	        		maincontent.attr('data-type', 'text')	   ;
+	        		$auteur = maincontent.find('.auteur').html();
+		        	if($auteur != undefined) $('.credits').append('<p class="auteur"><span>+ ' + $auteur + '</span></p>');     		
 				}						
 			});
 			layout.initPositionAndSize(maincontent, true);
@@ -175,7 +185,10 @@ var layout = {
 						var $dom = $(document.createElement("html"));
 		        		$dom[0].innerHTML = data; 
 		        		html = $dom.find('body').html();
-		        		content="<div>" + html + "</div>";		
+		        		content="<div>" + html + "</div>";	
+		        		$auteur = $dom.find('.auteur').html();
+		        		if($auteur != undefined) $('.credits').append('<p class="auteur"><span>+ ' + $auteur + '</span></p>');     		
+
 		        		slot.html(content);		
 					}						
 				});
@@ -256,9 +269,8 @@ var layout = {
 
 		var randColNb = Math.floor(Math.random()*colSlots.length);
 			
-		var _top = Math.random()*(h - slotheight  + bordPerdu) - bordPerdu;
+		var _top = Math.floor(Math.random()*(h - slotheight  + bordPerdu));
 		var _left = colSlots[randColNb].left;
-		
 		
 		slot.css({'top':_top, 'left':_left});
 	},
@@ -282,7 +294,6 @@ var layout = {
 		var _left = Math.random()*(right-left) + left;
 		var _top = Math.random()* (bottom - top) + top;
 		
-		console.log(options, top, right, bottom, left, '/', _top, _left)
 		slot.css({'top':_top, 'left':_left});
 	},
 
@@ -295,18 +306,14 @@ var layout = {
 	initPositionAndSize: function(slot, main){
 		layout.randomColWidth(slot);
 		layout.randomColPosition(slot);
-		if (main==true) {
-			console.log('main' , main)
-			var height = h - parseInt(slot.css('top')) - bordPerdu;
-			slot.css({'height': height});
-		};
+		
 	},
 
 
 	reinitPositionAndSize : function(slot){
 		var slotsToMove;
 		if(multipageMode==false){
-			slotsToMove = $currentPage.find('.slot');
+			slotsToMove = $currentPage.find('.slot:not(.folio)');
 		} else {
 			slotsToMove = slots;
 		}
