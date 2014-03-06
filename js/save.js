@@ -7,6 +7,7 @@
 
 saveAndPrint = function(){
     
+    document.mode = "print";
 
     var foliotage = 0;
     var d = new Date();
@@ -23,8 +24,7 @@ saveAndPrint = function(){
             $cpage.show();
 
             var id = $cpage.attr('id');
-            console.log(id);
-
+            
             popup.txt('<p>Préparation de l’impression…</p>');
             
             html2canvas(document.getElementById(id), {
@@ -42,7 +42,7 @@ saveAndPrint = function(){
                 height:$cpage.height()
             });
         } else {
-            popup.txt("<p>Impression en cours</p>");
+            popup.txt("<p>Impression en cours… <br>Merci de patienter</p>");
             var t = setTimeout(function(){
                 popup.txt("<p>Création d’un nouveau projet</p>");
                 var t = setTimeout(function(){
