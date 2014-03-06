@@ -5,7 +5,7 @@
 <body>
 	<?php
 
-	    $files = glob('./feuille/*.html');
+	    $files = glob('./*.html');
 		$random_file = $files[array_rand($files)];
 		include($random_file);
 
