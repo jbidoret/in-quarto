@@ -18,6 +18,9 @@ var pages_nb = 4, // in-quarto
 	bordPerdu = 20 * res,
 
 	avoidDoubleKey = false,
+
+	volatility = new Array(),
+	volatility_index = 0,
 	
 	slots_nb = 5, // default number of slots per page
 	slots = [],
@@ -37,6 +40,8 @@ var pages_nb = 4, // in-quarto
 	$message = $('#message'),
 	$video = $('#video'),
 	$canvas = $('#canvas');
+
+
 	
 	// initial mode
 	document.mode = 'init';
@@ -45,23 +50,18 @@ var pages_nb = 4, // in-quarto
 
 // ———————————————————————————————————————————————————————————————————————————— init
 $(function(){
-	source.select();	
-	
+	source.select();		
 });
 
 
-function randRange(data) {
-   var newTime = data[Math.floor(data.length * Math.random())];
-   return newTime;	
-}
 
-function Shuffle(o) {
-	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-	return o;
-};
+volatility.push([2000, 3000, 6000, 30000, 45000]);
+volatility.push([1000, 2000, 5000, 18000, 26000]);
+volatility.push([200, 1500, 2000, 6000, 9000, 11000]);
+volatility.push([200, 600, 1600, 3000, 4500]);
 
 function bordelize(func) {
-   	var timeArray = new Array(2000, 3000, 6000, 30000, 45000);
+   	
 
    	// choose a random slots number among all slots and move them
    	var randslots = slots;
@@ -77,7 +77,7 @@ function bordelize(func) {
    		};     		
 	};
 	clearInterval(bordelTimer);
-	bordelTimer = setInterval(bordelize, randRange(timeArray));
+	bordelTimer = setInterval(bordelize, randRange(volatility[volatility_index]));
 }
 
 var bordelTimer = setInterval(bordelize, 1000);
@@ -140,10 +140,29 @@ $(document).keydown(function(e){
 						break;
 				}	
 				break;
-			
-			// ———————————————————————————————————————————————————————————————— unused live @ b
-			// move position : d
+
+			// more slots
 			case 68 :
+				if (document.mode == 'layout') {
+					layout.changeNumberOfSlots('more');
+				}
+				break;
+
+			// less slots
+			case 83 :
+				if (document.mode == 'layout') {
+					layout.changeNumberOfSlots('less');
+				}
+				break;
+
+			// volatility / noise : f
+			case 70:
+				volatility_index = volatility_index == volatility.length ? 0 : volatility_index + 1;
+				break;
+
+			// ———————————————————————————————————————————————————————————————— unused live @ b
+			// move position : e
+			case 69 :
 				layout.movePosition(focused);				
 			break;
 			

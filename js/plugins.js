@@ -18,3 +18,15 @@ function ISODateString(d){
       + pad(d.getUTCMinutes())+'-'
       + pad(d.getUTCSeconds())
 }
+
+// random time range
+function randRange(data) {
+   var newTime = data[Math.floor(data.length * Math.random())];
+   return newTime;	
+}
+
+// shuffle array
+function Shuffle(o) {
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	return o;
+};

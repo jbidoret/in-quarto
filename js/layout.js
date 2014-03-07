@@ -61,7 +61,7 @@ var layout = {
 			
 			// ———————————————————————————————————————————————————————————————————————————— build folios
 			for (var p = 0; p < 2; p++) {
-				var text;
+				var numero;
 				var folio = $('<div class="slot folio" data-type="folio"></div>');
 				$_page.append(folio);
 				
@@ -73,7 +73,7 @@ var layout = {
 				folio.attr('data-layout-limit-left', l);
 				
 				if(i==0 && p==0){
-					text = 8;
+					numero = 8;
 					var d = new Date();
 
 					var _date = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() ;
@@ -82,11 +82,11 @@ var layout = {
 					$_page.append(credits);
 					layout.randomPosition(credits, {'top':t, 'right':r , 'bottom': b, 'left':l});
 				} else {
-					text = i + 1 + (p == 0 ? i-1 : i) ;					
+					numero = i + 1 + (p == 0 ? i-1 : i) ;					
 				}
 
 				layout.randomPosition(folio, {'top':t, 'right':r , 'bottom': b, 'left':l});
-				folio.text(text);
+				folio.text(numero);
 				
 			};
 			
@@ -99,7 +99,7 @@ var layout = {
 			// generate content slots
 			for (var j = 1; j < slots_nb; j++) {
 				var txt0rImg = Math.random();
-				var s = new layout.Slot(builtSlots, txt0rImg >.9 ? 'text' : 'photo');
+				var s = new layout.Slot(builtSlots, txt0rImg >0.8 ? 'text' : 'photo');
 				$_page.append(s);
 				if(i==0 && j==0) focused = s;
 				layout.initPositionAndSize(s);
@@ -172,6 +172,24 @@ var layout = {
 	},
 
 
+	changeNumberOfSlots : function(moreOrLess){
+		var slotsToMove = $currentPage.find('.slot:not(.folio):not(#slot0)');
+		
+		if (moreOrLess == 'less') {
+			slotsToMove.last().remove();
+		} else {
+			var txt0rImg = Math.random();
+			var s = new layout.Slot(builtSlots, txt0rImg >0.8 ? 'text' : 'photo');
+			$currentPage.append(s);
+			layout.initPositionAndSize(s);
+			layout.fillSlot(s);
+			slots.push(s);
+			builtSlots++;
+		};
+
+		
+	},
+
 	// random slot filling
 	fillSlot : function(slot, src){
 		
@@ -231,18 +249,11 @@ var layout = {
 			if(focused.next().length && focused.next().is('div')){		
 				focused = focused.next();
 			} else {
-				focused = focused.parent().find('>div:first-of-type');
+				focused = focused.parent().find('>div:not(.folio):first-of-type');
 			}
 		}
 		
 		focused.addClass("focused");	
-	},
-
-
-	paginate : function(page){
-		
-
-
 	},
 
 
