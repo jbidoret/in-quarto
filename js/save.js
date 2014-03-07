@@ -25,7 +25,7 @@ saveAndPrint = function(){
 
             var id = $cpage.attr('id');
             
-            popup.txt('<p>Préparation de l’impression…</p>');
+            popup.txt('<p>Préparation de l’impression</p>');
             
             html2canvas(document.getElementById(id), {
                 onrendered: function(canvas) {
@@ -42,12 +42,12 @@ saveAndPrint = function(){
                 height:$cpage.height()
             });
         } else {
-            popup.txt("<p>Impression en cours… <br>Merci de patienter</p>");
+            popup.txt("<p>Impression en cours<br>Merci de patienter</p>");
             var t = setTimeout(function(){
                 popup.txt("<p>Création d’un nouveau projet</p>");
                 var t = setTimeout(function(){
                     location.reload();
-                },1000);
+                },2000);
             },1000);
             
         }
