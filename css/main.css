@@ -127,6 +127,10 @@ p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
 .auteur { font-size: 75%; font-style: italic;}
 .credits { max-width: 250px; z-index: 50}
 .credits .auteur { margin: 0}
+
+.nord { font-family: 'antiqueolive'; font-weight: 900; font-size: 1.6em; }
+
+
 /* ———————————————————————————————————————————————————————————————————————————— image layout  */    
 .img img { width: 100%}
 

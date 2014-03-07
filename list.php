@@ -27,8 +27,9 @@
 		}
 
 
-	    $txt = glob('./_txt/*.html');
 	    $txt = rglob('*.html', './_txt');
+	    $txt = glob('./_txt/*.html');
+	    
 	    $cam = glob('./_cam/*.png');
 
 	    $img = rglob('*.jpg', './_img/uploads/web');
@@ -72,7 +73,9 @@
 					$dot = stripos ($text, '.'); //find first dot position
 					$titre = substr($text, 0, $dot+1);
 				}
-				if (strlen($titre) > 150) {
+				if (strlen($titre) < 50) {
+					$content = "<h1 class='nord'>$titre</h1>";
+				} else if (strlen($titre) > 150) {
 					$content = "<p>$titre</p>";
 				} else {
 					$content = "<h1>$titre</h1>";
