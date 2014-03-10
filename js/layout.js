@@ -153,8 +153,7 @@ var layout = {
 					content="<div>" + data + "</div>";		
 	        		maincontent.html(content);		
 	        		maincontent.attr('data-type', 'text')	   ;
-	        		$auteur = maincontent.find('.auteur').html();
-		        	if($auteur != undefined) $('.credits').append('<p class="auteur"><span>+ ' + $auteur + '</span></p>');     		
+        			layout.updateCredits();
 				}						
 			});
 			layout.initPositionAndSize(maincontent, true);
@@ -171,12 +170,20 @@ var layout = {
 		$('#page0').append(maincontent);
 	},
 
+	updateCredits : function(){
+		$('#credits').empty();
+		$('.auteur').each(function(){
+			$('.credits').append('<p class="auteur"><span>+ ' + $(this).html() + '</span></p>');     		
+		});
+    	
+	},
 
 	changeNumberOfSlots : function(moreOrLess){
 		var slotsToMove = $currentPage.find('.slot:not(.folio):not(#slot0)');
 		
 		if (moreOrLess == 'less') {
 			slotsToMove.last().remove();
+			updateCredits();
 		} else {
 			var txt0rImg = Math.random();
 			var s = new layout.Slot(builtSlots, txt0rImg >0.8 ? 'text' : 'photo');
@@ -185,6 +192,7 @@ var layout = {
 			layout.fillSlot(s);
 			slots.push(s);
 			builtSlots++;
+			updateCredits();
 		};
 
 		
@@ -204,8 +212,7 @@ var layout = {
 		        		$dom[0].innerHTML = data; 
 		        		html = $dom.find('body').html();
 		        		content="<div>" + html + "</div>";	
-		        		$auteur = $dom.find('.auteur').html();
-		        		if($auteur != undefined) $('.credits').append('<p class="auteur"><span>+ ' + $auteur + '</span></p>');     		
+		        		updateCredits();
 
 		        		slot.html(content);		
 					}						
