@@ -45,15 +45,13 @@ var webcam = {
 
 		canvas.width = back.width = video.width = vWidth ;
 		canvas.height = back.height = video.height = vHeight ;
-		
-		
 
-		// canvases and video in popup 
-		//popup.show();		
-		// canvases and video in page
-		
-		
 
+		// flip horizontal
+		backcontext.translate(vWidth, 0);
+		backcontext.scale(-1, 1);
+
+		// gum
 		navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 		function successCallback(stream) {
@@ -97,6 +95,8 @@ var webcam = {
 		    var apx = backcontext.getImageData(0, 0, vWidth, vHeight);
 		    var data = apx.data;
 		    var adjustment = 25;
+		    
+
 		 
 		    for(var i = 0; i < data.length; i+=4){
 		        var r = data[i] + adjustment,
@@ -114,6 +114,7 @@ var webcam = {
 
 		   	apx.data = data;
 		    context.putImageData(apx, 0, 0);
+
 
 		 	// recursive
 		    camTimeOut = setTimeout(function() {

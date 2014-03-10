@@ -281,7 +281,7 @@ var layout = {
 	randomColPosition: function(slot){
 		
 		var slotheight = slot.height();
-		console.log(slotheight, slot, h - slotheight  + bordPerdu, h, slotheight, bordPerdu);
+		//console.log(slotheight, slot, h - slotheight  + bordPerdu, h, slotheight, bordPerdu);
 
 		var randColNb = Math.floor(Math.random()*colSlots.length);
 			

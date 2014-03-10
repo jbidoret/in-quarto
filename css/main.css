@@ -31,9 +31,9 @@ body {
     
 
 .onepage .page{
-    -webkit-transform: scale(.25);
-    -moz-transform: scale(.25);
-    transform: scale(.25);
+    -webkit-transform: scale(.5);
+    -moz-transform: scale(.5);
+    transform: scale(.5);
     }
 
 .multipage .page {
