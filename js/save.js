@@ -16,7 +16,7 @@ saveAndPrint = function(){
     var pprint = function(iter){
 
         if (foliotage < pages_nb) {
-
+            $body.addClass('print');
             //$cpage = $('.currentpage').first();
             page.setCurrentPage();
             var $cpage = $('#page' + foliotage);
@@ -32,12 +32,14 @@ saveAndPrint = function(){
                     var dataURL = canvas.toDataURL();
                     $.post("canvasdata.php", { data: dataURL, pages_nb:pages_nb, folio:foliotage, dirname:dirname } );   
                     foliotage++;
-                    var t = setTimeout(function(){pprint(foliotage)},400);
+                    var t = setTimeout(function(){pprint(foliotage)},100);
                     
                 },
                 //letterRendering:true, // necessary for letter spacing
                 background:"#ffffff",
                 logging:true,
+                //timeout:100, // fails with timeout
+                //allowTaint:true,
                 width:$cpage.width(),
                 height:$cpage.height()
             });
@@ -46,7 +48,13 @@ saveAndPrint = function(){
             var t = setTimeout(function(){
                 popup.txt("<p>Création d’un nouveau projet</p>");
                 var t = setTimeout(function(){
+                    //
                     location.reload();
+                    //
+                    // $body.removeClass('print');
+                    // popup.hide();
+                    // document.mode = 'layout'
+                    // $('.page').show();
                 },2000);
             },1000);
             
@@ -55,7 +63,7 @@ saveAndPrint = function(){
     }
 
     // Todo : imprimer quatre images !
-    var t = setTimeout(function(){pprint(0)},400);
+    var t = setTimeout(function(){pprint(0)},200);
 
 };
 

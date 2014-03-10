@@ -77,8 +77,8 @@ var layout = {
 					var d = new Date();
 
 					var _date = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() ;
-
-					var credits = $('<div class="slot credits" data-type="credits"><p><span>Maison des éditions</span> <br> <span>Les motifs du travail</span> <br><span>'+ _date +'</span></div>');
+					var creditsText = '<p><span>Maison des éditions</span> <br> <span>Les motifs du travail</span></p>';
+					var credits = $('<div class="slot credits" data-type="credits">' + creditsText + '<br><span>'+ _date +'</span></div>');
 					$_page.append(credits);
 					layout.randomPosition(credits, {'top':t, 'right':r , 'bottom': b, 'left':l});
 				} else {
@@ -141,6 +141,8 @@ var layout = {
 		page.switchToMultipageView();
 
 		// --------------------------------------------------------------------------------------------- main content slot
+
+		// crappy : grab extension
 		var type = sourceFocusedSrc.slice(-3);
 		
 		if(type=="txt" || type=="tml"){
@@ -152,7 +154,7 @@ var layout = {
 				success:function(data){
 					content="<div>" + data + "</div>";		
 	        		maincontent.html(content);		
-	        		maincontent.attr('data-type', 'text')	   ;
+	        		maincontent.attr('data-type', 'text');
 	        		$auteur = maincontent.find('.auteur').html();
 		        	if($auteur != undefined) $('.credits').append('<p class="auteur"><span>+ ' + $auteur + '</span></p>');     		
 				}						
@@ -171,7 +173,7 @@ var layout = {
 		$('#page0').append(maincontent);
 	},
 
-
+	// @param : morOrLess = 'less' || 'more'
 	changeNumberOfSlots : function(moreOrLess){
 		var slotsToMove = $currentPage.find('.slot:not(.folio):not(#slot0)');
 		
@@ -239,6 +241,8 @@ var layout = {
 	},
 
 
+
+	// unused
 	changeFocus : function(slot){
 		for (var i = 0; i < slots.length; i++) {
 			slots[i].removeClass("focused");
@@ -258,7 +262,7 @@ var layout = {
 
 
 
-	// ------------------------------------------------------------------------------------------ position and size
+	// ------------------------------------------------------------------------------------------ absolute position and size
 	movePosition : function(slot){
 		
 		var randColNb = Math.floor(Math.random()*colSlots.length);
@@ -277,15 +281,17 @@ var layout = {
 	randomColPosition: function(slot){
 		
 		var slotheight = slot.height();
+		console.log(slotheight, slot, h - slotheight  + bordPerdu, h, slotheight, bordPerdu);
 
 		var randColNb = Math.floor(Math.random()*colSlots.length);
 			
 		var _top = Math.floor(Math.random()*(h - slotheight  + bordPerdu));
 		var _left = colSlots[randColNb].left;
-		
+		slot.attr('data-colslots-left', colSlots[randColNb].left);
 		slot.css({'top':_top, 'left':_left});
 	},
 
+	// options (limits) = { top:0, right : 0, bottom: 0, left:0 }
 	randomPosition: function(slot, options){
 		
 		if(options == undefined ){
@@ -311,6 +317,7 @@ var layout = {
 	randomColWidth : function(slot){
 		var randColNb = Math.floor(Math.random()*colSlots.length);
 		var _width = colSlots[randColNb].width;
+		slot.attr({'data-width': _width});
 		slot.css({'width':_width});
 	},
 

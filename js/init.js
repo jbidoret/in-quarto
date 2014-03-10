@@ -72,7 +72,7 @@ function bordelize(func) {
    		for (var i = 0; i < max; i++) {
    			var myslot = slots[i];
    			t[i] = setTimeout(function(myslot){
-   				layout.initPositionAndSize(myslot);
+   				// layout.initPositionAndSize(myslot);
    			}, i*200, myslot)
    		};     		
 	};
