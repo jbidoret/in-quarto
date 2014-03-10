@@ -24,9 +24,9 @@ var grid = {
 	
 		//prepend to page
 		page.append($pageZone);
-		colWidth = (zoneWidth- gutterWidth*(colNumber-1)) / colNumber ;
+		colWidth = Math.floor((zoneWidth- gutterWidth*(colNumber-1)) / colNumber) ;
 
-		twoPagesWidth = zoneWidth*2 + marginLeft *2;
+		twoPagesWidth = zoneWidth * 2 + marginLeft * 2;
 		$pageZone.css({
 			'width':twoPagesWidth + gutterWidth*2 + 'px',
 			'left': marginLeft + 'px',
@@ -52,14 +52,19 @@ var grid = {
 			
 		var twoColWidth = colWidth*2 + gutterWidth;
 		var threeColWidth = colWidth*3 + gutterWidth*2;
+		var fourColWidth = colWidth*4 + gutterWidth*3;
+		
+
 		colSlots=[
 			// first col
 			{'left':marginLeft, 'width':twoColWidth},
 			{'left':marginLeft, 'width':threeColWidth},
+			{'left':marginLeft, 'width':fourColWidth},
 
 			// 2nd col
 			{'left':marginLeft + colWidth + gutterWidth, 'width':twoColWidth},
 			{'left':marginLeft + colWidth + gutterWidth, 'width':threeColWidth},
+			{'left':marginLeft + colWidth + gutterWidth, 'width':fourColWidth},
 
 			// 3d col
 			{'left':marginLeft + colWidth*2 + gutterWidth*2, 'width':twoColWidth},

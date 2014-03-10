@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" lang="FR-fr">
     <head>
         <meta charset="utf-8">
 
@@ -30,14 +30,10 @@
             </div>
         </div>
 
-        <div id="book">
-            
-
-        </div>
+        <div id="book"></div>
         
         <div id="popup" class="invisible">
-            <div id="message"></div>
-            
+            <div id="message"></div>            
         </div>
         
         

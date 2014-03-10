@@ -19,7 +19,7 @@ body {
 
 /* ———————————————————————————————————————————————————————————————————————————— multipage scales */    
 .page { 
-    background: #fff;
+    background:#fff url('pix_3x3.png') repeat-y 50% 0 ;
     height: 565px;
     width: 800px;
     position: absolute;
@@ -28,11 +28,12 @@ body {
     -moz-transform-origin:0 0;
     transform-origin:0 0;
     }    
+    
 
-.onepage .page {
-    -webkit-transform: scale(.25);
-    -moz-transform: scale(.25);
-    transform: scale(.25);
+.onepage .page{
+    -webkit-transform: scale(.5);
+    -moz-transform: scale(.5);
+    transform: scale(.5);
     }
 
 .multipage .page {
@@ -91,6 +92,7 @@ body {
 /* ———————————————————————————————————————————————————————————————————————————— text layout & typography */    
 h1, h2 { line-height: 1.2}
 
+*[data-type="text"] p  { background: #fff}
 p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
 .maincontent { color: red; background: #fff}
 .slot[data-type="text"].huge { font-size: 400%}
