@@ -2,7 +2,7 @@
 
 
     // allowed modes
-    $modes = array('bitmap', 'hole', 'bg', 'grad', 'grey', 'intext', 'blue', 'bluue', 'wall');
+    $modes = array('bitmap', 'hole', 'bg', 'grad', 'grey', 'intext', 'blue', 'bluue', 'wall', 'trame1', 'full');
 
     // debug
     if ($_GET["debug"]=="True") $debug=true;
@@ -38,22 +38,40 @@
     $filepath = implode("/", array_slice($params, 3));
     
     $filedir = implode("/", array_slice($params, 3, -1));
-    function random_pic() {
+    
+    // browse dirs passed as params
+    function random_pic($dirs) {
+        if(sizeof($dirs)>0){
+            
+            $dirstring = "uploads/null/*.png";
+            foreach ($dirs as $value) {
+                $dirstring .= ",uploads/" . $value . "/*.jpg,uploads/" . $value . "/*.JPG,uploads/" . $value . "/*.png,uploads/" . $value . "/*.jpeg";               
+            }
+            $dirstring = '{' . $dirstring . '}';
+            
+            $img = glob($dirstring,GLOB_BRACE);  
+        } else {
+            $img = glob("{uploads/*/*.jpg,uploads/*/*.JPG,uploads/*/*.png,uploads/*/*.jpeg}",GLOB_BRACE);    
+        }
         
-        $files = glob('./uploads/wip/*.*');
-        $img = glob("{uploads/*/*.jpg,uploads/*/*.JPG,uploads/*/*.png}",GLOB_BRACE);
-        $cam = glob("../_cam/*-ok.png");
-
-        $files = array_merge ($img, $cam);
-
-        $faile = array_rand($files);
+        $faile = array_rand($img);
         
-        return $files[$faile];
+        return $img[$faile];
     }
-    if ($filedir == 'random') {
-        $filepath = random_pic();
+
+    // random-dessins+submit+machin
+    // ou bien 
+    // random
+    if (strpos($filedir, 'random') !== false) {
         
-    }
+        if (strpos($filedir, '/') !== false) {
+            $randomdirs = explode("/", $filedir);
+            if(sizeof($randomdirs)>1){
+                $dirs = explode(",", $randomdirs[1]);
+            }
+        } 
+        $filepath = random_pic($dirs);    
+    } 
     
     //$file = './' . htmlspecialchars(substr($filepath, 0, -4), ENT_QUOTES, 'UTF-8');
     $file = './' . htmlspecialchars($filepath, ENT_QUOTES, 'UTF-8');
@@ -183,8 +201,21 @@
                 exec ($convert . " " . $temp . " -dither FloydSteinberg -colors 2 -depth 1  png8:" . $cache);
                 break;
 
+            // used
             case 'grey':
-                exec ($convert . " " . $file . " -resize ". $size ." -colorspace Gray -resize 2000x435\> -quality 70 " . $cache);            
+                exec ($convert . " " . $file . " -resize ". $size ." -colorspace Gray -quality 70 " . $cache);            
+                break;
+
+            // used
+            case 'full':
+
+                exec ($convert . " " . $file . " -colorspace Gray -resize ". $size ."^ -gravity Center -crop ". $size ."+0+0 +repage -quality 70 " . $cache);            
+                //exec ($convert . " " . $file . " -colorspace Gray -gravity Center  -resize ". $size ."^ -crop 32x32+0+0 +repage -quality 70 " . $cache);            
+                break;
+
+            // used
+            case 'trame1':
+                exec ($convert . " " . $file . " -resize 1000x1000\> -colorspace Gray -fill black -colorize 10% +level-colors '#000000', -ordered-dither h8x8a  -fuzz 30% -transparent white PNG8:" . $cache);            
                 break;
 
             case 'wall':
@@ -193,7 +224,7 @@
                 break;
 
             case 'hole':
-                exec ($convert . " " . $file . " -colorspace Gray  -resize 2000x435\> -normalize -level 00%,100% -dither FloydSteinberg -colors 2 -contrast-stretch 5% +level-colors '#6a0bc1', -quantize transparent -depth 8  " . $cache);
+                exec ($convert . " " . $file . " -colorspace Gray  -resize 1000x1000\> -normalize -level 00%,100% -dither FloydSteinberg -colors 2 -contrast-stretch 5% +level-colors '#6a0bc1', -quantize transparent -depth 8  " . $cache);
                 exec ($convert  . "  -geometry " . getpos($cache) . " " . $cache . " " . $flare_src . " -alpha Set -compose Dst_In  -composite  " . $cache);
                 break;
             
