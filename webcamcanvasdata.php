@@ -15,7 +15,7 @@
 
 	//save data:png base64 encoded to disk
 
-	$destdir = './_cam/';
+	$destdir = './img/cam/';
 	$filename = $destdir . $filename;//'cam-' . date('y-m-j-m-i-s') . '.png';
 	$tempfilename = $filename . '-tmp.png';
 	$destfilename = $filename . '-ok.png';
