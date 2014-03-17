@@ -11,7 +11,7 @@ body {
     background:#000;
     overflow: hidden;
     font-family: 'Mendoza', serif;
-    font-family: 'antiqueolive', sans-serif;
+    font-family: 'Suisse', sans-serif;
     line-height: 1.5;
     }
 
@@ -31,9 +31,9 @@ body {
     
 
 .onepage .page{
-    -webkit-transform: scale(.5);
-    -moz-transform: scale(.5);
-    transform: scale(.5);
+    -webkit-transform: scale(.25);
+    -moz-transform: scale(.25);
+    transform: scale(.25);
     }
 
 .multipage .page {
@@ -58,6 +58,8 @@ body {
     /*background: red*/
     }
 
+/* ———————————————————————————————————————————————————————————————————————————— sources */    
+#imagesList { display: none; }
 
 /* ———————————————————————————————————————————————————————————————————————————— Menu */    
 #menu { 
@@ -81,9 +83,9 @@ body {
     }    
     .slot[data-type="title"] { background: blue}
     .slot[data-type="text"] { font-size: 200%; z-index: 8}
-    .slot[data-type="sms"] { font-size: 200%; z-index: 8; font-family: 'Mendoza', serif; font-size: 14px}
+    .slot[data-type="sms"] { font-size: 400%; z-index: 8; font-family: 'Mendoza', serif; }
     .slot[data-type="photo"] { z-index: 5}
-    .slot[data-type="folio"] { z-index: 10; font-size: 100%; font-weight: 300}
+    .slot[data-type="folio"] { z-index: 10; font-size: 150%; font-weight: 300}
     .slot[data-type="drawing"] { background: green}
     
     /*.slot.focused { outline: 10px dashed black; }    */
@@ -92,8 +94,11 @@ body {
 /* ———————————————————————————————————————————————————————————————————————————— text layout & typography */    
 h1, h2 { line-height: 1.2}
 
-*[data-type="text"] p  { background: #fff}
-p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
+
+
+*[data-type="text"] p { background: #fff; margin: 0; }
+*[data-type="text"] p + p { text-indent: 1em} 
+/*p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }*/
 .maincontent { color: red; background: #fff}
 .slot[data-type="text"].huge { font-size: 400%}
 .slot[data-type="text"].big { font-size: 400%}
@@ -129,11 +134,19 @@ p span {box-shadow: -2px 0 0 2px white, 2px 0 0 2px white; background: #fff; }
 .auteur { font-size: 75%; font-style: italic;}
 .credits { max-width: 250px; z-index: 50}
 .credits .auteur { margin: 0}
+.credits p {margin: 0}
+.credits img { display: block;
+    left: -60px;
+    position: absolute;
+    top: -20px;
+    width: 60px;}
 
 .nord { font-family: 'antiqueolive'; font-weight: 900; font-size: 1.6em; }
 
 
 /* ———————————————————————————————————————————————————————————————————————————— image layout  */    
+.slot[data-type="photo"].hugeImage {z-index:2; min-width: 200px; min-height: 200px}
+.hugeImage img {image-rendering: pixelated}
 .img img { width: 100%}
 
 /* ———————————————————————————————————————————————————————————————————————————— grid */    
