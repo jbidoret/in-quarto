@@ -11,6 +11,38 @@
 
 var source = {
 
+	init : function(){
+
+		// append a div to body which will contain images sources from random dirs
+		$('body').append($imagesList);
+
+		$.ajax({
+			// load dirs
+			url:'_img/sources.php?', 
+			success:function(data){
+				var $dom = $(document.createElement("html"));
+        		$dom[0].innerHTML = data; 
+        		var imageDirs = $dom.find('body > div > div');
+
+        		imageDirs.each(function(){
+        			imageDirsList.push($(this));
+        		});
+        		// randomize nb of active sources dirs
+        		Shuffle(imageDirsList);
+        		howManyDirs = Math.floor(Math.random() * 3)+1;
+        		selectedImageDirs = imageDirsList.slice(0, howManyDirs);
+
+        		for (var i = 0; i < selectedImageDirs.length; i++) {
+        			$imagesList.append(selectedImageDirs[i][0].outerHTML)        			
+        		};	
+        		available_images = $imagesList.find('p').toArray();
+				available_images_nb = available_images.length;
+			}						
+		});
+
+		source.select();
+	},
+
 	select : function(){
 
 		var $list = '<div id="list"></div>';
