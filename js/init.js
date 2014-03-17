@@ -25,8 +25,13 @@ var pages_nb = 4, // in-quarto
 	slots_nb = 5, // default number of slots per page
 	slots = [],
 	builtSlots = 1,
+	usedsources = [],
 	colSlots, // layout
 	sourcesTypes = ['text', 'photo', 'drawing', 'title'],
+	$imagesList = $('<div id="imagesList"></div>'),
+	imageDirsList = [],
+	available_images,
+	available_images_nb,
 	
 	focused, // initial slot focused
 
@@ -50,19 +55,19 @@ var pages_nb = 4, // in-quarto
 
 // ———————————————————————————————————————————————————————————————————————————— init
 $(function(){
-	source.select();		
+	source.init();	
+
 });
 
 
 
-volatility.push([2000, 3000, 6000, 30000, 45000]);
+volatility.push([2000, 6000, 30000, 45000, 30000]);
 volatility.push([1000, 2000, 5000, 18000, 26000]);
 volatility.push([200, 1500, 2000, 6000, 9000, 11000]);
 volatility.push([200, 600, 1600, 3000, 4500]);
 
 function bordelize(func) {
    	
-
    	// choose a random slots number among all slots and move them
    	var randslots = slots;
    	Shuffle(randslots);
@@ -72,7 +77,7 @@ function bordelize(func) {
    		for (var i = 0; i < max; i++) {
    			var myslot = slots[i];
    			t[i] = setTimeout(function(myslot){
-   				// layout.initPositionAndSize(myslot);
+   				layout.initPositionAndSize(myslot);
    			}, i*200, myslot)
    		};     		
 	};
