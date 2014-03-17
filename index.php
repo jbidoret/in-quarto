@@ -38,14 +38,16 @@
         
         
         <script type="text/javascript" src="js/vendor/jquery-1.10.1.min.js"></script>
-        <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
-        <script type="text/javascript" src="js/packery.pkgd.min.js"></script>
-        <script type="text/javascript" src="js/html2canvas.js"></script>
+        <script type="text/javascript" src="js/utils/imagesloaded.pkgd.min.js"></script>
+        <script type="text/javascript" src="js/utils/packery.pkgd.min.js"></script>
+        <script type="text/javascript" src="js/utils/html2canvas.js"></script>
         <script type="text/javascript" src="js/plugins.js"></script>
 
-        <script type="text/javascript" src="js/objectdetect.js"></script>
-        <script type="text/javascript" src="js/objectdetect.handopen.js"></script>
-        <script type="text/javascript" src="js/jquery.objectdetect.js"></script>
+        <!-- unused -->
+        <script type="text/javascript" src="js/utils/pixastic.js"></script>
+        <script type="text/javascript" src="js/utils/objectdetect.js"></script>
+        <script type="text/javascript" src="js/utils/objectdetect.handopen.js"></script>
+        <script type="text/javascript" src="js/utils/jquery.objectdetect.js"></script>
 
 
         <script type="text/javascript" src="js/webcam.js"></script>
@@ -63,6 +65,6 @@
         <script type="text/javascript" src="js/init.js"></script>
         
         <script type="text/javascript" src="js/save.js"></script>
-        <!--<script type="text/javascript" src="js/vendor/cssregions.js"></script>-->
+        <!--<script type="text/javascript" src="js/utils/cssregions.js"></script>-->
     </body>
 </html>
