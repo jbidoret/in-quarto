@@ -86,7 +86,7 @@ body {
     .slot[data-type="sms"] { font-size: 400%; z-index: 8; font-family: 'Mendoza', serif; }
     .slot[data-type="photo"] { z-index: 5}
     .slot[data-type="folio"] { z-index: 10; font-size: 150%; font-weight: 300}
-    .slot[data-type="drawing"] { background: green}
+    /*.slot[data-type="drawing"] { background: green}*/
     
     /*.slot.focused { outline: 10px dashed black; }    */
 
@@ -147,6 +147,7 @@ h1, h2 { line-height: 1.2}
 /* ———————————————————————————————————————————————————————————————————————————— image layout  */    
 .slot[data-type="photo"].hugeImage {z-index:2; min-width: 200px; min-height: 200px}
 .hugeImage img {image-rendering: pixelated}
+.slot[data-type="photo"].fullImage {z-index:6; background: #000}
 .img img { width: 100%}
 
 /* ———————————————————————————————————————————————————————————————————————————— grid */    
