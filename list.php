@@ -32,7 +32,8 @@
 	    
 	    $cam = glob('./_cam/*.png');
 
-	    $img = rglob('*.jpg', './_img/uploads/web');
+	    //$img = rglob('*.jpg', './_img/uploads/web');
+	    $img = glob("{./_img/uploads/dessins/*.png,./_img/uploads/dessinsmarie/*.png,./_img/uploads/web/*.jpg}",GLOB_BRACE);
 	    $papier = rglob('*.JPG', './_img/uploads/papier');
 	    
 
@@ -44,12 +45,12 @@
 
 		$txt = array_slice($txt ,0 ,50);
 		$cam = array_slice($cam ,0 ,20);
-		$img = array_slice($img ,0 ,20);
+		$img = array_slice($img ,0 ,80);
 		$papier = array_slice($papier ,0 ,20);
 
 	 	$sources = array_merge ($txt,  $img, $papier);
 		shuffle($sources);
-		$sources = array_slice($sources, 0, 15);
+		$sources = array_slice($sources, 0, 25);
 
 		foreach ($sources as $file) {
 			
@@ -59,9 +60,9 @@
 				
 				// CRAPPY
 				if($imagesourcedir == '_cam'){
-					$content = '<img src="' . $file . '" width="200">';
+					$content = '<div class="img"><img src="' . $file . '" width="200"></div>';
 				} else {
-					$content = '<img src="_img/cache/grey/400x400/' . $image . '">';	
+					$content = '<div class="img"><img src="_img/cache/grey/400x400/' . $image . '"></div>';	
 				}
 				
 				

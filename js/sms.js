@@ -14,7 +14,7 @@ var sms = {
 		var smsSlot = new layout.Slot(slotId, 'sms');
 		slots.push(smsSlot);
 		
-		//smsSlot.html(msg);	
+		smsSlot.html(msg);	
 		$currentPage.append(smsSlot);
 		layout.initPositionAndSize(smsSlot);		
 	}
