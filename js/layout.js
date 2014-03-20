@@ -63,9 +63,10 @@ var layout = {
 				var s = new layout.Slot(builtSlots, txt0rImg >0.8 ? 'text' : 'photo');
 				$_page.append(s);
 				if(i==0 && j==0) focused = s;
+				layout.fillSlot(s);
 				layout.initPositionAndSize(s);
 
-				layout.fillSlot(s);
+				
 				slots.push(s);
 				builtSlots++;
 			};
@@ -141,8 +142,8 @@ var layout = {
 			var txt0rImg = Math.random();
 			var s = new layout.Slot(builtSlots, txt0rImg >0.8 ? 'text' : 'photo');
 			$currentPage.append(s);
-			layout.initPositionAndSize(s);
 			layout.fillSlot(s);
+			layout.initPositionAndSize(s);
 			slots.push(s);
 			builtSlots++;
 			layout.updateCredits();
@@ -308,8 +309,11 @@ var layout = {
 		
 		var proba = Math.random();
 
+		console.log(proba);
+
 		// sometimes, return a big bitmapized image
-		if (proba > 0.95 && slot.attr("data-type") == "photo"){
+		if (proba > 0.90 && slot.attr("data-type") == "photo"){
+			console.log('proba huge bmap');
 			layout.randomWidth(slot);
 			layout.randomPosition(slot);
 			layout.bmapize(slot);
@@ -319,6 +323,7 @@ var layout = {
 		} // sometimes, return a full page image
 		if (proba > 0.8 && slot.attr("data-type") == "photo"){
 			// width + height
+			console.log('proba full');
 			var _width = Math.floor(Math.random()*(w/2))+ w/2;
 			slot.attr({'data-width': _width});
 			slot.css({
@@ -348,6 +353,7 @@ var layout = {
 	},
 
 	normalize : function(slot){
+		//console.log(slot);
 		var t = setTimeout(function(){
 			var width = w/2 - bordPerdu *2,
 				height = h - bordPerdu *2,
@@ -389,7 +395,8 @@ var layout = {
 			slotsToMove = slots;
 		}
 		for (var i = 0; i < slotsToMove.length; i++) {
-			layout.movePosition($(slotsToMove[i]));
+			//layout.movePosition($(slotsToMove[i]));
+			layout.initPositionAndSize($(slotsToMove[i]));
 		};
 		layout.initPositionAndSize(slot);
 		//layout.randomColPosition(slot);
