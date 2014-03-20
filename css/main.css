@@ -11,7 +11,7 @@ body {
     background:#000;
     overflow: hidden;
     font-family: 'Mendoza', serif;
-    font-family: 'Suisse', sans-serif;
+    font-family: 'antiqueolive', sans-serif;
     line-height: 1.5;
     }
 
@@ -31,9 +31,9 @@ body {
     
 
 .onepage .page{
-    -webkit-transform: scale(.25);
-    -moz-transform: scale(.25);
-    transform: scale(.25);
+    -webkit-transform: scale(.5);
+    -moz-transform: scale(.5);
+    transform: scale(.5);
     }
 
 .multipage .page {
@@ -45,6 +45,7 @@ body {
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
     transform: scale(1);
+    background: #fff;
     }
 
 .multipage .page:after {
@@ -147,7 +148,7 @@ h1, h2 { line-height: 1.2}
 /* ———————————————————————————————————————————————————————————————————————————— image layout  */    
 .slot[data-type="photo"].hugeImage {z-index:2; min-width: 200px; min-height: 200px}
 .hugeImage img {image-rendering: pixelated}
-.slot[data-type="photo"].fullImage {z-index:6; background: #000}
+.slot[data-type="photo"].fullImage {z-index:6; }
 .img img { width: 100%}
 
 /* ———————————————————————————————————————————————————————————————————————————— grid */    

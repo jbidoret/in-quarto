@@ -141,8 +141,9 @@
         list($width, $height, $type) = getimagesize($file);
         
 
-        $destwidth = round($size/$height * $width);
-        $destheight = round($size/$height * $height);
+        $sizeArray = explode('x', $size);//round($size/$height * $width);
+        $destwidth = $sizeArray[0];
+        $destheight = $sizeArray[1];//round($size/$height * $height);
 
         $flare_src = './flare-w.png';
 
@@ -208,8 +209,13 @@
 
             // used
             case 'full':
-
-                exec ($convert . " " . $file . " -colorspace Gray -resize ". $size ."^ -gravity Center -crop ". $size ."+0+0 +repage -quality 70 " . $cache);            
+                if($o_width<$destwidth){
+                    $rescale = '';
+                    //
+                    exec ($convert . " " . $file . " -colorspace Gray -resize ". $size ." -gravity Center -crop ". $size ."+0+0 +repage  -fill black -colorize 10% +level-colors '#000000', -ordered-dither h8x8a  PNG8:" . $cache);        
+                } else{
+                    exec ($convert . " " . $file . " -colorspace Gray -resize ". $size ."^ -gravity Center -crop ". $size ."+0+0 +repage -quality 70 " . $cache);            
+                }
                 //exec ($convert . " " . $file . " -colorspace Gray -gravity Center  -resize ". $size ."^ -crop 32x32+0+0 +repage -quality 70 " . $cache);            
                 break;
 
